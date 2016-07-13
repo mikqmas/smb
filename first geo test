@@ -1,0 +1,47 @@
+//
+// var scene = new THREE.Scene();
+// var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+// var renderer = new THREE.WebGLRenderer();
+// // var stats = new Stats();
+//
+// renderer.setSize(window.innerWidth, window.innerHeight);
+//
+// document.body.appendChild(renderer.domElement);
+// // document.body.appendChild(stats.dom);
+//
+// var material = new THREE.MeshBasicMaterial( {color: 0x00ff00, wireframe: true, opacity: 0.5});
+// var material2 = new THREE.LineBasicMaterial( { color: 0x00ff00, opacity: 0.5 } );
+// var material3 = new THREE.ShaderMaterial({wireframe: true, transparent: true});
+// var radius = 1;
+// var segments = 40;
+//
+// var geometry = new THREE.BoxGeometry(1,1,1);
+// // var geometry2 = new THREE.CircleGeometry(radius, segments);
+// var geometry3 = new THREE.SphereGeometry(1, 20, 20 );
+//
+// // geometry2.vertices.shift();
+//
+// // var cube = new THREE.Mesh(geometry, material);
+// // var circle = new THREE.Line(geometry2, material2);
+// // var circle = new THREE.Mesh(geometry2, material);
+//
+// var sphere = new THREE.Mesh(geometry3, material3);
+//
+// // scene.add(cube);
+// // scene.add(circle);
+// scene.add(sphere);
+//
+// camera.position.z = 5;
+//
+// var render = function() {
+//   requestAnimationFrame(render);
+//
+//   console.log(renderer);
+//   sphere.rotation.x += 0.1;
+//   sphere.rotation.y += 0.1;
+//
+//   renderer.render(scene, camera);
+// };
+//
+// render();
+// // stats.update();
