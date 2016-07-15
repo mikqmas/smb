@@ -352,6 +352,8 @@
             cameraPosition = CAMERA_ANGLES[camAngle][0],
             camQuat = CAMERA_ANGLES[camAngle][1]
 
+            camera.rotation.y = 0;
+            
             camera.position.set(...cameraPosition);
 
             camera.quaternion.x = camQuat[0];
