@@ -345,6 +345,7 @@
           function changeAngle() {
             if(camAngle === 3) {
               camAngle = 0;
+              lookDir = 0;
             }else {
               camAngle += 1;
             }
@@ -353,7 +354,7 @@
             camQuat = CAMERA_ANGLES[camAngle][1]
 
             camera.rotation.y = 0;
-            
+
             camera.position.set(...cameraPosition);
 
             camera.quaternion.x = camQuat[0];
