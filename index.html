@@ -1,5 +1,4 @@
 <html>
-
     <head>
     <link rel="stylesheet" href="./main.css" media="screen" title="no title" charset="utf-8">
     <script src="https://ajax.googleapis.com/ajax/libs/threejs/r76/three.min.js"></script>
@@ -7,6 +6,12 @@
     <script src="keyboard.js"></script>
 
         <script>
+          const CAMERA_ANGLES = [
+            [[0, -20, 10],[0.5, 0, 0]],
+            [[0, -10, 3],[0.6, 0, 0]],
+            [[0, 0, 20],[0, 0, 0]],
+            [[0, 0, 0],[.7, 0, 0]]
+          ]
           var renderer = undefined,
               camera = undefined,
               scene = undefined,
@@ -18,10 +23,14 @@
               mazeDimension = 10,
               startTime = 0,
               timer = 0,
-              didEnd = false,
+              didEnd = true,
               timebox = undefined,
               control = "ball",
               bestTime = "00.00",
+              camAngle = 0,
+              cameraPosition = CAMERA_ANGLES[camAngle][0],
+              camQuat = CAMERA_ANGLES[camAngle][1],
+              lookDir = 0,
 
 
           // Cannon world Vars
@@ -79,8 +88,12 @@
             // Add the camera.
             var aspect = window.innerWidth/window.innerHeight;
             camera = new THREE.PerspectiveCamera(60, aspect, 0.1, 1000);
-            camera.position.set(0, -20, 10);
-            // scene.add(camera);
+            camera.position.set(...cameraPosition);
+            scene.add(camera);
+
+            camera.quaternion.x = camQuat[0];
+            camera.quaternion.y = camQuat[1];
+            camera.quaternion.z = camQuat[2];
 
             var light = new THREE.AmbientLight( 0x404040 ); // soft white light
             scene.add(light);
@@ -90,43 +103,6 @@
             directionalLight.castShadow= true;
             scene.add( directionalLight );
 
-
-            // //Curve Test
-            // var sampleClosedSpline = new THREE.CatmullRomCurve3([
-        		// 	new THREE.Vector3(0, 0, 10),
-        		// 	new THREE.Vector3(10, 10, 20),
-            //   new THREE.Vector3(-10, 20, 10)
-        		// ]);
-            //
-            // function addTube() {
-            //
-        		// 	tube = new THREE.TubeGeometry(sampleClosedSpline);
-        		// 	addGeometry(tube, 0xff00ff);
-        		// 	tubeMesh.scale.set( 1, 1, 1 );
-            //   tubeMesh.position.set( 0, 0, 1 );
-            //
-        		// }
-            //
-            //
-        		// function addGeometry( geometry, color ) {
-            //
-        		// 	// 3d shape
-            //
-        		// 	tubeMesh = THREE.SceneUtils.createMultiMaterialObject( geometry, [
-        		// 		new THREE.MeshLambertMaterial({
-        		// 			color: color
-        		// 		}),
-        		// 		new THREE.MeshBasicMaterial({
-        		// 			color: 0x000000,
-        		// 			opacity: 0.3,
-        		// 			wireframe: true,
-        		// 			transparent: true
-        		// 	})]);
-            //
-        		// 	scene.add( tubeMesh );
-            //
-        		// }
-
             // Add the ball.
             var ballTexture = loader.load('ball.png');
             ballTexture.wrapS = ballTexture.wrapT = THREE.RepeatWrapping;
@@ -135,20 +111,12 @@
             g = new THREE.SphereGeometry(1, 20, 20);
             m = new THREE.MeshPhongMaterial({map:ballTexture});
             ballMesh = new THREE.Mesh(g, m);
-            // ballMesh.position.set(0,0,0);
 
-            // Add the player
-            // g = new THREE.SphereGeometry(1, 32, 32);
-            // m = new THREE.MeshBasicMaterial({color:0x00ffff, wireframe: true});
-            // player = new THREE.Mesh(g, m);
             player = new THREE.Object3D();
             // player.position.set(0, 0, 4);
             player.add( camera );
             player.add(ballMesh);
             scene.add(player);
-
-            //Add the ground.
-            // m = new THREE.MeshBasicMaterial({color: 0x00ff00, wireframe: true})
 
             var planeTexture = loader.load('lab-floor.jpg');
             planeTexture.wrapS = planeTexture.wrapT = THREE.RepeatWrapping;
@@ -157,7 +125,6 @@
             g = new THREE.PlaneGeometry(mazeDimension*20, mazeDimension*20, mazeDimension, mazeDimension);
             planeMesh = new THREE.Mesh(g, m);
             scene.add(planeMesh);
-            // let planeTexture = THREE.TextureLoader().load("ball.png");
 
 
             // Add the maze
@@ -240,11 +207,40 @@
                 }
               }
             } else {
-              body.velocity.x += keyAxis[0]/5;
-              body.velocity.y += keyAxis[1]/5;
+              if(camAngle !== 3) {
+                body.velocity.x += keyAxis[0]/5;
+                body.velocity.y += keyAxis[1]/5;
+              }else {
+                if(Math.abs(lookDir) > 12.56) {
+                  lookDir = 0;
+                }
+                camera.rotation.y -= keyAxis[0]/10;
+                lookDir -= keyAxis[0]/5;
+                const dir = Math.abs(lookDir/3.14);
+                // let dirup = dir > 1 && dir < 3 ? -(1+dir)/2 : (1+dir)/2;
+                // let dirright = dir > 2 ? -dir/2 : dir/2;
+                // console.log(dirup);
+                // console.log(dirright);
+                if(dir >= 3.5 || dir < 0.5){
+                  body.velocity.y += ((keyAxis[1]/5));
+                }else if(dir >= 0.5 && dir < 1.5) {
+                  body.velocity.x += ((keyAxis[1]/5));
+                }else if(dir >= 1.5 && dir < 2.5) {
+                  body.velocity.y -= ((keyAxis[1]/5));
+                }else if(dir >= 2.5 && dir < 3.5) {
+                  body.velocity.x -= ((keyAxis[1]/5));
+                }
+
+
+                // body.velocity.y += ((keyAxis[1]/5) * dirup);
+                // body.velocity.x += ((keyAxis[1]/5) * dirright);
+              }
+
             }
 
 
+            keyAxis = [0,0];
+            keyActions = [0]
             // Copy coordinates from Cannon.js to Three.js
             player.position.copy(body.position);
             ballMesh.quaternion.copy(body.quaternion);
@@ -255,15 +251,6 @@
             // planeMesh.position.copy(groundBody.position);
             // planeMesh.quaternion.copy(groundBody.quaternion);
 
-          }
-
-          function updateRender() {
-            camera.quaternion.y = 0;
-            camera.quaternion.z = 0;
-            camera.quaternion.x = .5;
-
-            keyAxis = [0,0];
-            keyActions = [0]
           }
 
           function updateTimer() {
@@ -291,7 +278,7 @@
               gameover.style.left = window.innerWidth/2 - 260;
             }
             gameover.style.top = window.innerHeight/2 - 100;
-            timebox.innerHTML = "";
+            didEnd = true;
             document.body.appendChild(gameover);
 
             askRestart();
@@ -322,7 +309,6 @@
             reset.style.left = window.innerWidth/2 - 200;
             reset.style.top = window.innerHeight/2;
             reset.onclick = function() {
-              console.log("HERE")
               resetGame(control === "ball" ? "ball" : "platform");
             }
             document.body.appendChild(reset);
@@ -356,6 +342,23 @@
             keyAxis = axis.slice(0);
           }
 
+          function changeAngle() {
+            if(camAngle === 3) {
+              camAngle = 0;
+            }else {
+              camAngle += 1;
+            }
+
+            cameraPosition = CAMERA_ANGLES[camAngle][0],
+            camQuat = CAMERA_ANGLES[camAngle][1]
+
+            camera.position.set(...cameraPosition);
+
+            camera.quaternion.x = camQuat[0];
+            camera.quaternion.y = camQuat[1];
+            camera.quaternion.z = camQuat[2];
+          }
+
           function onWindowResize() {
       			windowHalfX = window.innerWidth / 2;
       			windowHalfY = window.innerHeight / 2;
@@ -368,7 +371,7 @@
 
           function resetGame(arr) {
             didEnd = false;
-            startTime += timer;
+            startTime = performance.now()/10;
             control = arr;
             body.velocity.set(0,0,0);
             body.angularVelocity.set(0,0,0);
@@ -384,7 +387,6 @@
               updateTimer();
             }
             updatePhysics();
-            updateRender();
 
             if(timer > 3000) {
               gameOver("Time Expired");
@@ -403,36 +405,63 @@
             //Add window resize listener
             window.addEventListener( 'resize', onWindowResize, false );
 
-            // Create the renderer.
-            renderer = new THREE.WebGLRenderer();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            document.body.appendChild(renderer.domElement);
-
-            // Bind keyboard and resize events.
-            KeyboardJS.bind.axis('left', 'right', 'down', 'up', onMoveKey);
-            KeyboardJS.bind.axis('h', 'l', 'j', 'k', onMoveKey);
-            KeyboardJS.bind.key('spacebar', function() {
-                keyActions[0] = 10;
-                return false;
-            });
-
             timebox = document.createElement('div');
             timebox.setAttribute("id", "timebox");
             timebox.style.left = window.innerWidth/2 - 10;
             document.body.appendChild(timebox);
 
+            // Create the renderer.
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
             initCannon();
             createRender();
 
-            // Start the game loop.
             gameLoop();
+
+            const start = document.getElementById('start');
+            start.style.height = window.innerHeight;
+            const startButton = document.getElementById('startButton');
+            startButton.onclick = function() {
+              document.body.removeChild(start);
+
+              // Bind keyboard and resize events.
+              KeyboardJS.bind.axis('left', 'right', 'down', 'up', onMoveKey);
+              KeyboardJS.bind.axis('h', 'l', 'j', 'k', onMoveKey);
+              KeyboardJS.bind.key('spacebar', function() {
+                  keyActions[0] = 10;
+                  return false;
+              });
+
+              didEnd = false;
+              // Start the game loop.
+              startTime = performance.now()/10;
+            }
           })
         </script>
 
     </head>
 
     <body>
+      <div id="start">
+        <div>Super Maze Ball</div>
+        <div id="startButton">Start!</div>
+        <img src="./arrows.svg"/>
+        <div id="blackout"></div>
+      </div>
       <div id="bestTime">Best Time:</div>
+      <!-- camera angle icon -->
+      <svg version="1.1" id="angle" onclick="changeAngle()" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+      	 width="512px" height="512px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
+      <path d="M486.406,186.141C500.469,175.578,512,181.359,512,198.953v288c0,17.594-11.531,23.375-25.594,12.813l-76.813-57.625
+      	C395.531,431.578,384,408.547,384,390.953v-96c0-17.594,11.531-40.625,25.594-51.188L486.406,186.141z M64,38.953
+      	c-35.344,0-64,28.656-64,64s28.656,64,64,64s64-28.656,64-64S99.344,38.953,64,38.953z M256,6.953c-44.188,0-80,35.813-80,80
+      	s35.813,80,80,80s80-35.813,80-80S300.188,6.953,256,6.953z M128,262.953h224v192c0,17.688-14.313,32-32,32H32
+      	c-17.688,0-32-14.313-32-32v-224c0-17.688,14.313-32,32-32h288c17.688,0,32,14.313,32,32H128V262.953z M128,390.953
+      	c0-17.688-14.313-32-32-32s-32,14.313-32,32s14.313,32,32,32S128,408.641,128,390.953z"/>
+      </svg>
+
     </body>
 
 </html>
