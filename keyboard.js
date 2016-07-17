@@ -1,6 +1,6 @@
 /*!
  * KeyboardJS
- * 
+ *
  * Copyright 2011, Robert William Hurst
  * Licenced under the BSD License.
  * See https://raw.github.com/RobertWHurst/KeyboardJS/master/license.txt
