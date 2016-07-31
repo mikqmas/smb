@@ -334,6 +334,24 @@
       };
       document.body.appendChild(easier);
     }
+
+    let git = document.createElement('i');
+    git.setAttribute("class", "question fa fa-github fa-5x");
+    git.style.left = window.innerWidth/2 - 70;
+    git.style.top = window.innerHeight/2 + 100;
+    git.onclick = function() {
+      window.open ('https://www.github.com/mikqmas','_self',false);
+    };
+    document.body.appendChild(git);
+
+    let linked = document.createElement('i');
+    linked.setAttribute("class", "question fa fa-linkedin fa-5x");
+    linked.style.left = window.innerWidth/2 + 50;
+    linked.style.top = window.innerHeight/2 + 100;
+    linked.onclick = function() {
+      window.open ('https://www.linkedin.com/in/samqkim','_self',false);
+    };
+    document.body.appendChild(linked);
   }
 
   function onMoveKey(axis) {
@@ -379,6 +397,8 @@
     body.position.set(0,-5,14);
     document.body.removeChild(document.getElementById('gameover'));
     const question = document.getElementsByClassName('question');
+    document.body.removeChild(question[0]);
+    document.body.removeChild(question[0]);
     document.body.removeChild(question[0]);
     document.body.removeChild(question[0]);
   }
