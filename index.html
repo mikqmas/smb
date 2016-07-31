@@ -1,22 +1,72 @@
 <html>
     <head>
-    <link rel="stylesheet" href="./main.css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="./css/main.css" media="screen" title="no title" charset="utf-8">
+    <!-- <link rel="stylesheet" href="css/reset.css"> -->
+    <!-- <link rel='stylesheet prefetch' href='css/34b729901a37198f5d0414728.css'> -->
+    <link rel="stylesheet" href="css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/threejs/r76/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cannon.js/0.6.2/cannon.js"></script>
-    <script src="./keyboard.js"></script>
-    <script src="./main.js"></script>
+    <script src="./js/keyboard.js"></script>
+    <script src="./js/main.js"></script>
     </head>
 
     <body>
       <div id="start">
-        <div>Super Maze Ball</div>
         <div id="startButton">Start!</div>
         <img src="./img/arrows.svg"/>
         <div id="blackout"></div>
+        <canvas class="fireworks"></canvas>
+    <section>
+      <svg class="logo" width="25rem" height="12rem" viewBox="0 0 900 300">
+        <defs>
+          <radialGradient cx="50%" cy="0%" fx="50%" fy="0%" r="50%" id="radialGradient-1">
+            <stop stop-color="#329FFF" offset="0%"></stop>
+            <stop stop-color="#206EFF" offset="100%"></stop>
+          </radialGradient>
+          <radialGradient cx="50%" cy="0%" fx="50%" fy="0%" r="50%" id="radialGradient-2">
+            <stop stop-color="#FF7894" offset="0%"></stop>
+            <stop stop-color="#FF324A" offset="100%"></stop>
+          </radialGradient>
+          <radialGradient cx="50%" cy="0%" fx="50%" fy="0%" r="100%" id="radialGradient-3">
+            <stop stop-color="#FF7894" offset="0%"></stop>
+            <stop stop-color="#FF324A" offset="100%"></stop>
+          </radialGradient>
+          <radialGradient cx="50%" cy="0%" fx="50%" fy="0%" r="100%" id="radialGradient-4">
+            <stop stop-color="#359FFC" offset="0%"></stop>
+            <stop stop-color="#206EFF" offset="100%"></stop>
+          </radialGradient>
+          <radialGradient cx="50%" cy="0%" fx="50%" fy="0%" r="50%" id="radialGradient-5">
+            <stop stop-color="#5FFFD2" offset="0%"></stop>
+            <stop stop-color="#31FFA6" offset="100%"></stop>
+          </radialGradient>
+          <radialGradient cx="50%" cy="0%" fx="50%" fy="0%" r="50%" id="radialGradient-6">
+            <stop stop-color="#551A8B" offset="0%"></stop>
+            <stop stop-color="#2E0854" offset="100%"></stop>
+          </radialGradient>
+        </defs>
+        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+          <rect id="dot-js" fill="url(#radialGradient-6)" x="30" y="290" width="64" height="64" rx="32"></rect>
+          <g id="lines" transform="translate(0.000000, 0.000000)">
+            <path d='M80 160 L80 0 L320 0 L320 60 L140 60 L140 100 L320 100 L320 160 L320 260 L80 260 L80 200 L260 200 L260 160 Z' id="line-m-1" stroke="#FDFDFD" stroke-linecap="square"></path>
+            <path d='M320 00 L320 260 L380 260 L380 60 L430 60 L430 260 L490 260 L490 060 L540 60 L540 260 L600 260 L600 00 Z' id="line-m-2" stroke="#FDFDFD" stroke-linecap="square"></path>
+            <path d='M600 0 L860 0 L860 260 L600 260 L600 200 L800 200 L800 160 L600 160 L600 160 L600 100 L800 100 L800 100 L800 60 L600 60 Z' id="line-n-1" stroke="#FDFDFD" stroke-linecap="square"></path>
+          </g>
+          <g id="fills" transform="translate(0.000000, 0.000000)">
+            <path d='M80 160 L80 0 L320 0 L320 60 L140 60 L140 100 L320 100 L320 160 L320 260 L80 260 L80 200 L260 200 L260 160 Z' id="fill-m-1" fill="url(#radialGradient-1)"></path>
+            <path d='M320 00 L320 260 L380 260 L380 60 L430 60 L430 260 L490 260 L490 060 L540 60 L540 260 L600 260 L600 00 Z' id="fill-m-2" fill="url(#radialGradient-2)"></path>
+            <path d='M600 0 L860 0 L860 260 L600 260 L600 200 L800 200 L800 160 L600 160 L600 160 L600 100 L800 100 L800 100 L800 60 L600 60 Z' id="fill-n-1" fill="url(#radialGradient-5)"></path>
+          </g>
+        </g>
+      </svg>
+    </section>
+    <script src='js/anime.js'></script>
+    <script src="js/index.js"></script>
+
+
       </div>
       <div id="bestTime">Best Time:</div>
       <!-- camera angle icon -->
-      <svg version="1.1" id="angle" onclick="changeAngle()" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+      <svg class="camera" version="1.1" id="angle" onclick="changeAngle()" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
       	 width="512px" height="512px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
       <path d="M486.406,186.141C500.469,175.578,512,181.359,512,198.953v288c0,17.594-11.531,23.375-25.594,12.813l-76.813-57.625
       	C395.531,431.578,384,408.547,384,390.953v-96c0-17.594,11.531-40.625,25.594-51.188L486.406,186.141z M64,38.953

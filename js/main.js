@@ -100,7 +100,7 @@
     scene.add( directionalLight );
 
     // Add the ball.
-    var ballTexture = loader.load('./img/ball.png');
+    var ballTexture = loader.load('./img/ball.jpg');
     ballTexture.wrapS = ballTexture.wrapT = THREE.RepeatWrapping;
     ballTexture.repeat.set(1,1);
 
@@ -127,10 +127,10 @@
     //overall maze object
     mazeMesh = new THREE.Object3D();
     //texture wrapping
-    var mazeTexture = loader.load('./img/brick.png');
+    var mazeTexture = loader.load('./img/brick.jpg');
     mazeTexture.wrapS = mazeTexture.wrapT = THREE.RepeatWrapping;
 
-    var mazeTexture2 = loader.load('./img/brick.png');
+    var mazeTexture2 = loader.load('./img/brick.jpg');
     mazeTexture2.wrapS = mazeTexture2.wrapT = THREE.RepeatWrapping;
 
     var checkersTexture = loader.load('./img/checker.gif');
