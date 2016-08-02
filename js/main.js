@@ -1,5 +1,3 @@
-
-
   const CAMERA_ANGLES = [
     [[0, -20, 10],[0.5, 0, 0]],
     [[0, -10, 3],[0.6, 0, 0]],
@@ -44,7 +42,7 @@
     world.solver.iterations = 10;
 
     //Create Ball
-    let shape = new CANNON.Sphere(1);
+    var shape = new CANNON.Sphere(1);
     body = new CANNON.Body({
       mass: 500,
     });
@@ -104,8 +102,8 @@
     ballTexture.wrapS = ballTexture.wrapT = THREE.RepeatWrapping;
     ballTexture.repeat.set(1,1);
 
-    let g = new THREE.SphereGeometry(1, 20, 20);
-    let m = new THREE.MeshPhongMaterial({map:ballTexture});
+    var g = new THREE.SphereGeometry(1, 20, 20);
+    var m = new THREE.MeshPhongMaterial({map:ballTexture});
     ballMesh = new THREE.Mesh(g, m);
 
     player = new THREE.Object3D();
@@ -119,7 +117,7 @@
     planeTexture.repeat.set(20,20);
     m = new THREE.MeshPhongMaterial({map:planeTexture});
     g = new THREE.PlaneGeometry(mazeDimension*20, mazeDimension*20, mazeDimension, mazeDimension);
-    let planeMesh = new THREE.Mesh(g, m);
+    var planeMesh = new THREE.Mesh(g, m);
     scene.add(planeMesh);
 
 
@@ -142,33 +140,33 @@
 
     m = new THREE.MeshPhongMaterial({map:mazeTexture});
     g = new THREE.BoxGeometry(8,20,4);
-    let obj1Mesh = new THREE.Mesh(g,m);
+    var obj1Mesh = new THREE.Mesh(g,m);
     mazeMesh.add(obj1Mesh);
 
     g = new THREE.BoxGeometry(20,8,4);
     m = new THREE.MeshPhongMaterial({map:mazeTexture2});
-    let obj2Mesh = new THREE.Mesh(g,m);
+    var obj2Mesh = new THREE.Mesh(g,m);
     obj2Mesh.position.set(6, 14, 0);
     mazeMesh.add(obj2Mesh);
     scene.add(mazeMesh);
 
     g = new THREE.BoxGeometry(8,36,4);
     m = new THREE.MeshPhongMaterial({map:mazeTexture});
-    let obj3Mesh = new THREE.Mesh(g,m);
+    var obj3Mesh = new THREE.Mesh(g,m);
     obj3Mesh.position.set(20, 0, 0);
     mazeMesh.add(obj3Mesh);
     scene.add(mazeMesh);
 
     g = new THREE.BoxGeometry(36,8,4);
     m = new THREE.MeshPhongMaterial({map:mazeTexture2});
-    let obj4Mesh = new THREE.Mesh(g,m);
+    var obj4Mesh = new THREE.Mesh(g,m);
     obj4Mesh.position.set(6, -22, 0);
     mazeMesh.add(obj4Mesh);
     scene.add(mazeMesh);
 
     g = new THREE.BoxGeometry(4,10,4);
     m = new THREE.MeshPhongMaterial({map:checkersTexture});
-    let obj5Mesh = new THREE.Mesh(g,m);
+    var obj5Mesh = new THREE.Mesh(g,m);
     obj5Mesh.position.set(-10, -13, 0);
     mazeMesh.add(obj5Mesh);
     scene.add(mazeMesh);
@@ -213,10 +211,6 @@
         camera.rotation.y -= keyAxis[0]/10;
         lookDir -= keyAxis[0]/5;
         const dir = Math.abs(lookDir/3.14);
-        // let dirup = dir > 1 && dir < 3 ? -(1+dir)/2 : (1+dir)/2;
-        // let dirright = dir > 2 ? -dir/2 : dir/2;
-        // console.log(dirup);
-        // console.log(dirright);
         if(dir >= 3.5 || dir < 0.5){
           body.velocity.y += ((keyAxis[1]/5));
         }else if(dir >= 0.5 && dir < 1.5) {
@@ -263,7 +257,7 @@
     if(!!document.getElementById('gameover')) {
       return;
     }
-    let gameover = document.createElement('div');
+    var gameover = document.createElement('div');
     gameover.setAttribute("id", "gameover");
     gameover.innerHTML = why;
     if(why === "winner"){
@@ -285,7 +279,7 @@
       return;
     }
     didEnd = true;
-    let win = document.createElement('div');
+    var win = document.createElement('div');
     win.setAttribute("id", "gameover");
     win.innerHTML = "Winner";
     win.style.left = window.innerWidth/2 - 70;
@@ -294,14 +288,12 @@
     askRestart();
     //Append Best Timebox
     const currTime = document.getElementById('timebox').innerHTML;
-    console.log(currTime);
     bestTime = bestTime < currTime ? currTime : bestTime;
-    console.log(bestTime);
     document.getElementById('bestTime').innerHTML = "Best Time: " + bestTime;
   }
 
   function askRestart() {
-    let reset = document.createElement('div');
+    var reset = document.createElement('div');
     reset.setAttribute("class", "question");
     reset.innerHTML = "Replay?";
     reset.style.left = window.innerWidth/2 - 200;
@@ -312,7 +304,7 @@
     document.body.appendChild(reset);
 
     if(control === "ball") {
-      let harder = document.createElement('div');
+      var harder = document.createElement('div');
       harder.setAttribute("class", "question");
       harder.innerHTML = "Harder?";
       harder.style.left = window.innerWidth/2 + 50;
@@ -324,7 +316,7 @@
     }
 
     if(control === "platform") {
-      let easier = document.createElement('div');
+      var easier = document.createElement('div');
       easier.setAttribute("class", "question");
       easier.innerHTML = "Easier?";
       easier.style.left = window.innerWidth/2 + 50;
@@ -335,7 +327,7 @@
       document.body.appendChild(easier);
     }
 
-    let git = document.createElement('i');
+    var git = document.createElement('i');
     git.setAttribute("class", "question fa fa-github fa-5x");
     git.style.left = window.innerWidth/2 - 70;
     git.style.top = window.innerHeight/2 + 100;
@@ -344,7 +336,7 @@
     };
     document.body.appendChild(git);
 
-    let linked = document.createElement('i');
+    var linked = document.createElement('i');
     linked.setAttribute("class", "question fa fa-linkedin fa-5x");
     linked.style.left = window.innerWidth/2 + 50;
     linked.style.top = window.innerHeight/2 + 100;
@@ -379,8 +371,8 @@
   }
 
   function onWindowResize() {
-    let windowHalfX = window.innerWidth / 2;
-    let windowHalfY = window.innerHeight / 2;
+    var windowHalfX = window.innerWidth / 2;
+    var windowHalfY = window.innerHeight / 2;
 
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
@@ -422,7 +414,7 @@
     requestAnimationFrame(gameLoop);
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("DOMContentLoaded", function() {
     //Add window resize listener
     window.addEventListener( 'resize', onWindowResize, false );
 
